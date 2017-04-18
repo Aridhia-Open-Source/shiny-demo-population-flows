@@ -133,15 +133,15 @@ server <- function(input, output, session) {
       
   })
   
-#   text_df <- reactive({
-#     
-#     radians <- radians()
-#     
-#     mids <- sapply(unique(names(radians)), function(x) mean(radians[names(radians) == x]))
-#     
-#     data.frame(theta = mids, r = 1.1, label = names(mids))
-#     
-#   })
+  text_df <- reactive({
+
+    radians <- radians()
+
+    mids <- sapply(unique(names(radians)), function(x) mean(radians[names(radians) == x]))
+
+    data.frame(theta = mids, r = 1.05, label = names(mids))
+
+  })
   
   
   hover_region_fun_over <- function(data, ...) {
@@ -162,48 +162,50 @@ server <- function(input, output, session) {
   
   
   hover_tooltip_fun <- function(x) {
-    
-    #paste(names(x), collapse = ",")
-    
-    
+    if(is.null(x)) return(NULL)
+    str(x)
+    # hover over text
+    if(length(names(x)) == 4) {
+      return(NULL)
+    }
     # hover over ribbon
     if (length(names(x)) == 6) {
-      
-      paste(
-        paste(x$name_from, x$name_to, sep = " &rarr; "),
-        "<br> <center>",
-        prettyNum(x[,"regionflow/10^10"] * 10^10, big.mark = ","),
-        "</center>"
+      return(
+        paste(
+          paste(x$name_from, x$name_to, sep = " &rarr; "),
+          "<br> <center>",
+          prettyNum(x[,"regionflow/10^10"] * 10^10, big.mark = ","),
+          "</center>"
+        )
       )
-      
-    # hover over outer track  
     } else {
-      
-      paste(
-        x$group,
-        "<br> Total Out:",
-        prettyNum(x[, "total_flow/10^10"] * 10^10, big.mark = ","),
-        "<br> Total In:",
-        prettyNum(x[, "total_flow_in/10^10"] * 10^10, big.mark = ",")
+      # hover over outer track  
+      return(
+        paste(
+          x$group,
+          "<br> Total Out:",
+          prettyNum(x[, "total_flow/10^10"] * 10^10, big.mark = ","),
+          "<br> Total In:",
+          prettyNum(x[, "total_flow_in/10^10"] * 10^10, big.mark = ",")
+        )
       )
     }
   }
   
-  
   ggvis() %>% 
     layer_paths(data = track_df %>% group_by(group), ~sin(theta) * r, ~cos(theta) * r,
                 interpolate := "linear-closed", fill = ~group, strokeOpacity := ~total_flow_in/10^10,
-                strokeWidth := ~total_flow/10^10) %>%
+                strokeWidth := ~total_flow/10^10, fillOpacity := 0.8, fillOpacity.hover := 1) %>%
     layer_paths(data = ribbons %>% group_by(name_from, name_to), ~sin(theta) * r, ~cos(theta) * r,
                 interpolate := "basis", fill = ~name_to, strokeOpacity := 0,
                 fillOpacity := ~fill_opac, fillOpacity.hover := 1, strokeWidth := ~regionflow/10^10) %>%
-    #layer_text(data = text_df, ~sin(theta) * r, ~cos(theta) * r, text := ~label, angle := ~theta * 180/pi, align := "center") %>%
+    layer_text(data = text_df, ~sin(theta) * r, ~cos(theta) * r, text := ~label, angle := ~theta * 180/pi, align := "center") %>%
     add_tooltip(hover_tooltip_fun, "hover") %>%
     handle_hover(hover_region_fun_over, hover_region_fun_out) %>%
     hide_axis("x") %>%
     hide_axis("y") %>%
     hide_legend("fill") %>%
-    set_options(width = 800, height = 800, keep_aspect = TRUE) %>%
+    set_options(width = 800, height = 800, keep_aspect = TRUE, duration = 350) %>%
     bind_shiny("population_flows")
     
   
