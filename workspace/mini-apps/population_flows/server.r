@@ -10,8 +10,6 @@ region_flows <- population_flows %>%
             regionflow_2000 = first(regionflow_2000), regionflow_2005 = first(regionflow_2005))
 
 
-
-
 region_totals_out <- region_flows %>%
   group_by(region_orig) %>%
   summarise(total_flow_1990 = sum(regionflow_1990), total_flow_1995 = sum(regionflow_1995),
@@ -38,32 +36,26 @@ link_one_region <- function(region_flows, region_totals_out, region) {
 server <- function(input, output, session) {
   
   hovered_region <- reactiveValues(region = NULL)
-  
+
   flows <- reactive({
-    
     x <- region_flows[, c("region_orig", "region_dest", paste0("regionflow_", input$year))]
     names(x) <- c("region_orig", "region_dest", "regionflow")
     
     x
-    
   })
   
   totals_out <- reactive({
-    
     x <- region_totals_out[, c("region_orig", paste0("total_flow_", input$year))]
     names(x) <- c("region_orig", "total_flow")
     
     x
-    
   })
   
   totals_in <- reactive({
-    
     x <- region_totals_in[, c("region_dest", paste0("total_flow_", input$year))]
     names(x) <- c("region_dest", "total_flow_in")
     
     x
-    
   })
   
   total_flow <- reactive({
@@ -71,7 +63,7 @@ server <- function(input, output, session) {
   })
   
   radians <- reactive({
-    create_radians(names = as.character(region_totals_out$region_orig), lengths = total_flow(), total_gap = 0.2)
+    create_radians(names = as.character(region_totals_out$region_orig), lengths = total_flow(), total_gap = 0.1)
   })
   
   track_radians <- reactive({
@@ -95,7 +87,6 @@ server <- function(input, output, session) {
     ## filtering makes the app quicker but messes up the transistions
     ## This is made much better however if you group by something more permanent when plotting (group_by(name_from, name_to) instead of (group_by(link)))
     data %>% filter(regionflow > 50000)
-    
   })
   
   track_df <- reactive({
@@ -118,48 +109,31 @@ server <- function(input, output, session) {
     ribb <- ribb %>% inner_join(val, by = "join")
     
     if (is.null(hovered_region$region)) {
-    
       ribb$fill_opac <- 0.8
-    
     } else {
-      
       ribb$fill_opac <- ifelse(ribb$name_from %in% hovered_region$region | ribb$name_to %in% hovered_region$region,
                                0.8, 0)
-  
     }
     
     ribb
-      
-      
   })
   
   text_df <- reactive({
-
     radians <- radians()
-
     mids <- sapply(unique(names(radians)), function(x) mean(radians[names(radians) == x]))
-
     data.frame(theta = mids, r = 1.05, label = names(mids))
-
   })
   
   
   hover_region_fun_over <- function(data, ...) {
-    
     if (length(names(data)) == 5) {
-      
       hovered_region$region <- data$group
-      
     }
-    
   }
   
   hover_region_fun_out <- function(...) {
-    
     hovered_region$region <- NULL
-    
   }
-  
   
   hover_tooltip_fun <- function(x) {
     if(is.null(x)) return(NULL)
@@ -207,8 +181,5 @@ server <- function(input, output, session) {
     hide_legend("fill") %>%
     set_options(width = 800, height = 800, keep_aspect = TRUE, duration = 350) %>%
     bind_shiny("population_flows")
-    
-  
-  
 }
 

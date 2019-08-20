@@ -1,7 +1,9 @@
 
-xap.require("shiny",
-            "ggvis",
-            "dplyr")
+xap.require(
+  "shiny",
+  "ggvis",
+  "dplyr"
+)
 
 ui <- fluidPage(
   titlePanel("The Global Flow of People"),
