@@ -4,8 +4,8 @@ library(ggvis)
 library(dplyr)
 
 
-source("track_functions.r")
-source("transformation_functions.r")
+source("track_functions.R")
+source("transformation_functions.R")
 
 population_flows <- read.csv("data/population_data.csv")
 
