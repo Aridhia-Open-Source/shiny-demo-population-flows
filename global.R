@@ -1,14 +1,22 @@
+#####################
+####### GLOBAL ######
+#####################
 
+# Load libraries ------------------------------------
 library(shiny)
 library(ggvis)
 library(dplyr)
 
 
-source("track_functions.R")
-source("transformation_functions.R")
+# Source everything on the code folder --------------------------
+for (file in list.files("code", full.names = TRUE)){
+  source(file, local = TRUE)
+}
 
+# Read the data ---------------------------------------
 population_flows <- read.csv("data/population_data.csv")
 
+# Data set up ----------------------------------------
 region_flows <- population_flows %>%
   group_by(region_orig, region_dest) %>%
   summarise(regionflow_1990 = first(regionflow_1990), regionflow_1995 = first(regionflow_1995),
