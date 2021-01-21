@@ -18,7 +18,7 @@ you will get information on flows from and to that specific region.
 You can clone this repository by using the command:
 
 ```
-git clone https://github.com/aridhia/demo-chi-squared-test
+git clone https://github.com/aridhia/demo-population-flows
 ```
 
 Open the .Rproj file in RStudio and use `runApp()` to start the app.
