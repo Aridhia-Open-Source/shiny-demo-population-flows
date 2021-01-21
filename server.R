@@ -1,10 +1,12 @@
-
+#####################
+####### SERVER ######
+#####################
 
 
 server <- function(input, output, session) {
   
   hovered_region <- reactiveValues(region = NULL)
-
+  
   flows <- reactive({
     x <- region_flows[, c("region_orig", "region_dest", paste0("regionflow_", input$year))]
     names(x) <- c("region_orig", "region_dest", "regionflow")
