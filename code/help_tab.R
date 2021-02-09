@@ -5,7 +5,7 @@ documentation_tab <- function() {
                        6,
                        h3("Population Flows"), 
                        p("This mini-app shows a circular visualisation of world population movement.
-                         You can explore the estimates of migration flows between and within regions for five-year periods, from 1990 to 2010."),
+                         You can explore the estimates of migration flows between and within regions from 1990 to 2010, for five-year periods."),
                        p("This visualisation uses the R package ggvis. This app is a recreation of the interactive visualisation found in http://www.global-migration.info/.
                        The original visualisation uses d3 javascript library, thus offering more interactivity."),
                        
@@ -17,7 +17,7 @@ documentation_tab <- function() {
                      column(
                        6,
                        h3("Walkthrough video"),
-                       tags$video(src="survival.mp4", type = "video/mp4", width="100%", height = "350", frameborder = "0", controls = NA),
+                       tags$video(src="population-flows.mp4", type = "video/mp4", width="100%", height = "350", frameborder = "0", controls = NA),
                        p(class = "nb", "NB: This mini-app is for provided for demonstration purposes, is unsupported and is utilised at user's 
                        risk. If you plan to use this mini-app to inform your study, please review the code and ensure you are 
                        comfortable with the calculations made before proceeding. ")
