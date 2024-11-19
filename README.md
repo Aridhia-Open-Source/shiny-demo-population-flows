@@ -11,7 +11,7 @@ The graph is shown in the main panel, using the right-hand side-bar you can chan
 You can clone this repository by using the command:
 
 ```
-git clone https://github.com/aridhia/demo-population-flows
+git clone https://github.com/Aridhia-Open-Source/shiny-demo-population-flows
 ```
 
 Open the .Rproj file in RStudio and use `runApp()` to start the app.
