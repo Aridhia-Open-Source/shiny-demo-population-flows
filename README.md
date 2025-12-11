@@ -1,6 +1,6 @@
 # Population Flows
 
-This RShiny mini-app shows a circular visualisation of world population movement. It allows you to explore the estimates of migration flows between and within regions from 1990 to 2010, in five-year periods. The data shows bilateral flows between 196 countries, it captures the number of people who changed their country of residence over five-year periods.
+This R web app shows a circular visualisation of world population movement. It allows you to explore the estimates of migration flows between and within regions from 1990 to 2010, in five-year periods. The data shows bilateral flows between 196 countries, it captures the number of people who changed their country of residence over five-year periods.
 
 This app is a recreation of the interactive visualisation found in http://www.global-migration.info/, from this same site you will find the data used. This visualisation tool uses the R package ggvis, while the original used d3 javascript library, thus offering more interactivity.
                        
@@ -19,7 +19,7 @@ Open the .Rproj file in RStudio and use `runApp()` to start the app.
 ### Deploying to the workspace
 
 1. Download this GitHub repo as a .zip file.
-2. Create a new blank Shiny app in your workspace called "population-flows".
+2. Create a new blank R web app in your workspace called "population-flows".
 3. Navigate to the `population-flows` folder under "files".
 4. Delete the `app.R` file from the `population-flows` folder. Make sure you keep the `.version` file!
 5. Upload the .zip file to the `population-flows` folder.
